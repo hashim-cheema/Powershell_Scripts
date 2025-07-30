@@ -1,0 +1,11 @@
+
+Import-Module ActiveDirectory # Import the AD module (if not already loaded)
+
+
+$computers = Get-ADComputer -Filter * -Properties Name, OperatingSystem, LastLogonDate, IPv4Address # Get all domain-joined computers
+
+
+$windowsVMs = $computers | Where-Object {$_.OperatingSystem -like "*Windows*" -and $_.Name -like "*"} #Filter for Windows systems
+
+
+$windowsVMs | Select-Object Name, OperatingSystem, LastLogonDate, IPv4Address | Format-Table -AutoSize
